@@ -1,0 +1,7 @@
+comandos
+
+-- ejecutar el compilador
+stack ghci clase1.hs
+
+-- cerrar el compilador
+ctrl + D

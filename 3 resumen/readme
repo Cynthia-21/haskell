@@ -1,0 +1,161 @@
+comandos
+:r			=> recarga el archivo
+:i 			=> obtiene info de una familia de tipos
+:t 			=> dice el tipo (sin necesidad de especificarlo) x ejemplo 
+cd			=> me muevo de un archivo a otro
+stack schi lib.hs	=> compilo el archivo
+
+COMANDOS EN GIT
+git init => iniciar proyecto en git (me crea un repo en git y me crea una rama de trabajo)
+git status => ver el estado de mi repo
+git add saludo.txt funcionesRandom.hs => agrego el archivo o los archivos para versionarlos
+git rm --catched saludo.txt => saco el archivo q agregue
+git commit -m "saludo inicial" => agrego archivos o cosas con una leyenda
+git log => me muestra las cosas q hice (los commit)
+git remote add origin link => agrego repositorio remoto
+git push origin HEAD => subo al repo de git
+cd git_tutorial/ => me muevo de carpeta
+rm - rf git_tutorial/ => borro mi carpeta
+git clone linkDeGit
+git pull => si alguien sube cambios y tengo q bajarlos
+
+module Lib where
+
+import Text.Show.Functions
+import Data.Char
+________________________________________________________________________________________________
+
+--Modelar data => barbaros
+data Barbaro = Barbaro {
+    nombre :: String,
+    fuerza :: Int,
+    habilidades :: [String],
+    objetos :: [Objeto]
+} deriving (Show)
+--dave = Barbaro "Dave" 100, ["tejer","escribirPoesia"] [ardilla, libroPedKing]
+
+data Persona = Persona {
+    nombrePersona :: String,
+    edadPersona :: Int,
+    equipoArgentinoDePrimeraA :: EquipoArgentinoDePrimeraA
+} deriving (Show)
+-- deriving (Show) esto va para q se sepa mostrar x pantalla
+
+-- muchas componentes
+data EquipoArgentinoDePrimeraA = Boca | River | SanLorenzo | Independiente
+
+-- tipos 
+type Objeto = Barbaro -> Barbaro
+________________________________________________________________________________________________
+
+$	=> aplicarle un parámetro a una función
+cambiarObjetos:: ([Objeto]-> [Objeto]) -> Barbaro -> Barbaro
+cambiarObjetos funcion barbaro = barbaro { objetos = funcion . objetos $ barbaro } 
+rem	=> resto
+mod	=> modulo
+sqrt 	=> raíz cuadrada
+(^) 	=> operador exponenciación
+max 	=> maximo
+min 	=> minimo
+== 	=> comparacion 
+const 	=> devuelve el primer valor
+id 	=> identidad (retorna mismo valor q se le ingreso)
+++	=> concateno string
+||	=> comparacion de o
+&& 	=> comparacion de and
+not 	=> negacion 
+lenght	=> dice el largo de un string
+elem	=> nos dice si una letra (o cualquier caracter) forma parte de una palabra
+ elem 6 [1,2,3,4,5,6,7,8,9]
+ True
+even	=> es par
+odd	=> es impar
+flip	=> flip -> funcion q recive dos parametros (me da vuelta los parametros)
+-- LISTAS
+1 : 2 : [3,4,5]
+concat 	=> recibe una lista de listas y me devuelve una lista simple
+reverse	=> invierte la lista
+null	=> recibe una lista y me dice si es o no nula
+take	=> toma una cantidad N y una lista, y devuelve los primeros N elementos de la lista
+drop	=> toma una cantidad N y una lista, y "descarta" los primeros N elementos de la lista
+head	=> toma el primer valor de la lista
+tail	=> devuelve la cola de la lista
+last	=> me da el ultimo elemento de la lista
+fold 	=> (reducir) se usa cuando a partir de un conj aplicado a un valor inicial necesito un elemento resultante
+-- se agarra un conj y se reduce a un resultado
+-- foldl (-) 0 [1,2,3,4]
+-- - 10 => (-1-2-3-4)
+-- foldr (-) 0 [1,2,3,4]
+-- -2 => (4-3-2-1)
+
+map 	=> a función que recibe una lista y a cada uno de los elementos de esta, le aplica una función
+(condición), que también le pasamos por parámetro
+-- tipo de la funcion map
+map :: (a -> b) -> [a] -> [b]
+
+filter	=> devuelve los elementos de una lista que cumplen una condición
+filter :: (a -> Bool) -> [a] -> [b]
+filter even [1, 2, 3,4, 2]
+
+[2, 4, 2] -- Filter :: (a -> Bool) -> [a] -> [a]
+!!	=> me devuelve si existe ese elemento en la lista
+	   elemento hay en la lista en ese espacio
+   numeros !! 5
+   6
+
+all	=> TODOS los elementos de la lista cumplen la condición que le pasé
+all :: (a -> Bool) -> [a] -> Bool 
+any	=> ALGUNO de los elementos de la lista cumple con la 
+condición que le pasé
+any :: (a -> Bool) -> [a] -> Bool
+-- TUPLAS
+fst	=> devuelven el primer elemento
+snd 	=> devuelve el segundo elemento
+_______________________________________________________________________________________________________________________________________________________________________________________________
+
+-- siempre que hay involucrado un float se pone fractional 
+-- TUPLAS: La tupla tiene una cantidad de elementos fija, pero no necesariamente deben ser todos del mismo tipo ("Hector", 24, 75)
+
+_______________________________________________________________________________________________________________________________________________________________________________________________
+
+tipos de una funcion
+-- Eq: las cosas que se pueden comparar por distinto e igual (/= y ==). Casi todo en Haskell es comparable, salvo las funciones. ¡doble == even rompe!
+-- Ord:las cosas que son comparables y además pueden ser ordenadas de menor a mayor, como los Int, Float, Char y String. Estos tipos pueden ser comparados mediante <, >, >=
+-- Show: las cosas que se pueden convertir en un string y mostrar en una consola, mediante la función show
+-- Integral : se utiliza con odd y even
+_______________________________________________________________________________________________________________________________________________________________________________________________
+-- tipo de la composicion (.)
+(.) :: (b -> c) -> (a -> b) -> a -> c 
+
+_______________________________________________________________________________________________________________________________________________________________________________________________
+aplicacion parcial 
+
+dobleDelSiguiente = doble.siguiente
+siguiente x = x + 1 
+doble x = x * 2
+-- es lo mismo q
+dobleDelSiguiente = (*2) . (+1)
+
+saludar = (++) "Hola "
+-- es lo mismo que 
+saludar nombre = "Hola" ++ nombre
+_______________________________________________________________________________________________________________________________________________________________________________________________
+TUPLA
+-- nos dice si un libro se publicó antes de 1959
+esUnClasico (_ , anioDePublicacion) = anioDePublicacion < 1956
+
+poderSoldado ( _ , fuerza , destreza) = fuerza * destreza
+_______________________________________________________________________________________________________________________________________________________________________________________________
+LISTA => las listas pueden tener:
+-- cualquier tipo de elementos (incluso tuplas, listas y funciones)
+-- cualquier cantidad de elementos (incluso 0 o 1)
+-- elementos repetidos
+-- Peeeeero, a diferencia de la tuplas, tienen que ser todos sus elementos del mismo tipo
+
+10 : numeros
+[10,1,2,3,4,5,6,7,8,9]
+--agrego un elemento al principio de la lista
+_______________________________________________________________________________________________________________________________________________________________________________________________
+-- expresiones lambda 
+-- es una función casi seguro nunca vamos a volver a usar. Estamos poniéndole un nombre a algo que realmente no lo necesita
+todosDisiviblesPor4OPor100 = all (\x -> divisiblePor 4 x || divisiblePor 100 x)
